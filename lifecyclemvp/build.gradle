@@ -24,7 +24,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
     implementation "android.arch.lifecycle:extensions:1.1.1"
-    implementation 'com.github.RobertApikyan:AbstractMvp:0.0.0.2'
+    implementation 'com.github.RobertApikyan:AbstractMvp:1.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 

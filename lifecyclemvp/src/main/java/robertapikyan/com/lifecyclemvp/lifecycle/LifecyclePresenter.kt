@@ -1,8 +1,8 @@
 package robertapikyan.com.lifecyclemvp.lifecycle
 
-import com.robertapikyan.abstractmvp.presentation.presenter.Presenter
-import com.robertapikyan.abstractmvp.presentation.view.ActionType
-import com.robertapikyan.abstractmvp.presentation.view.IViewAction
+import robertapikyan.com.abstractmvp.presentation.presenter.Presenter
+import robertapikyan.com.abstractmvp.presentation.view.ActionType
+import robertapikyan.com.abstractmvp.presentation.view.IViewAction
 
 /**
  * LifecyclePresenter is base class for LifecycleMvp library.

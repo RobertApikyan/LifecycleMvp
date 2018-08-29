@@ -4,10 +4,10 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
-import com.robertapikyan.abstractmvp.presentation.Mvp
-import com.robertapikyan.abstractmvp.presentation.presenter.IPresenterHolder
-import com.robertapikyan.abstractmvp.presentation.presenter.IPresenterLifecycleHandler
-import com.robertapikyan.abstractmvp.presentation.presenter.Presenter
+import robertapikyan.com.abstractmvp.presentation.Mvp
+import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterHolder
+import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterLifecycleHandler
+import robertapikyan.com.abstractmvp.presentation.presenter.Presenter
 
 /**
  * LifecycleMvpFactory is implementation of Mvp.Factory. It provide's all lifecycle mvp components,

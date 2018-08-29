@@ -1,7 +1,7 @@
 package robertapikyan.com.lifecyclemvp.lifecycle
 
-import com.robertapikyan.abstractmvp.presentation.Mvp
-import com.robertapikyan.abstractmvp.presentation.presenter.Presenter
+import robertapikyan.com.abstractmvp.presentation.Mvp
+import robertapikyan.com.abstractmvp.presentation.presenter.Presenter
 
 /**
  * Helper methods for receiving presenter instance.

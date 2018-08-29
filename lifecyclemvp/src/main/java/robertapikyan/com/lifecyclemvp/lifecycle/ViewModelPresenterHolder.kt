@@ -1,7 +1,7 @@
 package robertapikyan.com.lifecyclemvp.lifecycle
 
 import android.arch.lifecycle.ViewModel
-import com.robertapikyan.abstractmvp.presentation.presenter.IPresenterHolder
+import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterHolder
 
 /**
  * ViewModelPresenterHolder is Android lifecycle persistence container for presenter.

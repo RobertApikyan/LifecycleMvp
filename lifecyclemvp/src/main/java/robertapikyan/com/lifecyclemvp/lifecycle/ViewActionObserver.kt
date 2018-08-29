@@ -1,8 +1,8 @@
 package robertapikyan.com.lifecyclemvp.lifecycle
 
-import com.robertapikyan.abstractmvp.presentation.view.IViewAction
-import com.robertapikyan.abstractmvp.presentation.view.IViewActionObserver
-import com.robertapikyan.abstractmvp.presentation.view.ViewHolder
+import robertapikyan.com.abstractmvp.presentation.view.IViewAction
+import robertapikyan.com.abstractmvp.presentation.view.IViewActionObserver
+import robertapikyan.com.abstractmvp.presentation.view.ViewHolder
 
 /**
  * Basic implementation of IViewActionObserver

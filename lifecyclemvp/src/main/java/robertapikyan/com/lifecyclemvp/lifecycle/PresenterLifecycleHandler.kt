@@ -3,8 +3,8 @@ package robertapikyan.com.lifecyclemvp.lifecycle
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
-import com.robertapikyan.abstractmvp.presentation.presenter.IPresenterLifecycle
-import com.robertapikyan.abstractmvp.presentation.presenter.IPresenterLifecycleHandler
+import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterLifecycle
+import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterLifecycleHandler
 
 /**
  * PresenterLifecycleHandler is IPresenterLifecycleHandler implementation with LifecycleObserver,

@@ -4,7 +4,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.os.Looper
-import com.robertapikyan.abstractmvp.presentation.view.*
+import robertapikyan.com.abstractmvp.presentation.view.*
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.locks.ReentrantLock

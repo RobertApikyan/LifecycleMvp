@@ -160,20 +160,20 @@ dependencies {
 ```
 ### Maven
 ```xml
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
+<repositories>
+	<repository>
+	<id>jitpack.io</id>
+	<url>https://jitpack.io</url>
+	</repository>
+</repositories>
 ```
 #### Add dependency
 ```xml
-	<dependency>
-	    <groupId>com.github.RobertApikyan</groupId>
-	    <artifactId>LifecycleMvp</artifactId>
-	    <version>1.0.2</version>
-	</dependency>
+<dependency>
+	<groupId>com.github.RobertApikyan</groupId>
+	<artifactId>LifecycleMvp</artifactId>
+	<version>1.0.2</version>
+</dependency>
 ```
 
  

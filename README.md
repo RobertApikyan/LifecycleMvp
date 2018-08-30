@@ -124,7 +124,80 @@ fun onComplete(genre:FilmGenres) = when (genre) {
 ...
 ```
 #### LifecyclePresenter's Lifecycle 
-LifecyclePresenter's has five lifeycle methods. First is onCreate() which is the initial method for presenter. As we know this method is calling by [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework, only once when presenter is created, since LifecylePresenter is Activity lifecycle persistance.Method onCreate() is getting called when [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework bind's all components together (to 
+LifecyclePresenter's has five lifeycle methods. 
+
+1. First one is ``` onCreate() ```, which is the initial stating point for presenter. As we know this method is calling by [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework, when presenter instance is created, since LifecylePresenter is Activity lifecycle persistance, it will be called only once. It is getting called when [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework finish binding all components together. (more about AbstactMvp components [here](https://github.com/RobertApikyan/AbstractMvp)). Only onCreate() lifecycle method is related with presenter's lifecycle, upcomming methods are binded with viewController lifecycle.
+
+2. ``` onViewAttach() ``` This method is getting called with ViewController's onCreate()
+3. ``` onViewStart() ``` This method is getting called with ViewController's onStart()
+4. ``` onViewStop() ``` This method is getting called with ViewController's onStop()
+5. ``` onViewDetach() ``` This method is getting called with ViewController's onDestroy()
+
+#### LifecycleMvpFactory Class
+[AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework uses [Mvp.Factory<V,P>](https://github.com/RobertApikyan/AbstractMvp/blob/master/abstractMvp/src/main/java/robertapikyan/com/abstractmvp/presentation/Mvp.kt) facatory, in order to get all components instances. [LifecycleMvpFactory](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/LifecycleMvpFactory.kt) implement [Mvp.Factory<V,P>](https://github.com/RobertApikyan/AbstractMvp/blob/master/abstractMvp/src/main/java/robertapikyan/com/abstractmvp/presentation/Mvp.kt)
+interface and provides all necessary lifecycle components. If you need to change some component implementation you can inherit from [LifecycleMvpFactory](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/LifecycleMvpFactory.kt) class and override component provider method that you need to change.
+
+### Summary
+LifecycleMvp library is AbstractMvp implementation with LiveData, ViewModels and Lifecycles from Android Arcitecture Components. 
+
+## Download
+### Gradle 
+#### Add to project level build.gradle
+```groovy
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+#### Add dependency to app module level build.gradle
+```groovy
+dependencies {
+    implementation 'com.github.RobertApikyan:AbstractMvp:1.0.1'
+}
+```
+### Maven
+```xml
+	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+```
+#### Add dependency
+```xml
+	<dependency>
+	    <groupId>com.github.RobertApikyan</groupId>
+	    <artifactId>AbstractMvp</artifactId>
+	    <version>1.0.1</version>
+	</dependency>
+```
+
+ 
+### Done.
+
+[![View Robert Apikyan profile on LinkedIn](https://www.linkedin.com/img/webpromo/btn_viewmy_160x33.png)](https://www.linkedin.com/in/robert-apikyan-24b915130/)
+
+License
+-------
+
+    Copyright 2017 Robert Apikyan
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+
 
 
 

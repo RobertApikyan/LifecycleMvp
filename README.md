@@ -81,7 +81,8 @@ Here new think is view{ } method, which receives lambda(```V.() -> Unit```) View
 ``
 It's impossible to come up with NullPointerException while trying to access view instance at the time when view is detached from presenter and there is no need to make nullability check every time before accessing view instance.
 ``
-##### UNDER THE HOOD
+#### UNDER THE HOOD
+Lets understand what is heppening when we call ```view { ... }``` or ``` viewImmediate { ... } ``` methods.
 ![N|Solid](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/intro/lifecycleMvpSchem.png?raw=true)
 
 

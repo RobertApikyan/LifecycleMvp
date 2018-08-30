@@ -1,6 +1,7 @@
 ![N|Solid](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/intro/LifecycleCover.png?raw=true)
 
 ### MinSDK 14+
+[![](https://jitpack.io/v/RobertApikyan/LifecycleMvp.svg)](https://jitpack.io/#RobertApikyan/LifecycleMvp)
 
 ## LifecycleMvp
 
@@ -154,7 +155,7 @@ allprojects {
 #### Add dependency to app module level build.gradle
 ```groovy
 dependencies {
-    implementation 'com.github.RobertApikyan:AbstractMvp:1.0.1'
+    implementation 'com.github.RobertApikyan:LifecycleMvp:1.0.1'
 }
 ```
 ### Maven
@@ -170,7 +171,7 @@ dependencies {
 ```xml
 	<dependency>
 	    <groupId>com.github.RobertApikyan</groupId>
-	    <artifactId>AbstractMvp</artifactId>
+	    <artifactId>LifecycleMvp</artifactId>
 	    <version>1.0.1</version>
 	</dependency>
 ```

@@ -74,7 +74,7 @@ The Important think here is that our presenter is lifecycle persistence. After c
     }
 }
 ```
-###### Done. Full example of ColorApp is here 
+###### Done. Full example of ColorApp is [here](https://github.com/RobertApikyan/ColorsApp) 
 Here new think is view{ } method, which receives lambda(```V.() -> Unit```) ViewAction as an argument This viewAction will be invoked by LifecycleMvp framework. 
 
 ###### Note. 

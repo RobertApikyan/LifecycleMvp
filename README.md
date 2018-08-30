@@ -85,15 +85,20 @@ It's impossible to come up with NullPointerException while trying to access view
 Lets understand what is heppening when we call ```view { ... }``` or ``` viewImmediate { ... } ``` methods.
 ![N|Solid](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/intro/lifecycleMvpSchem.png?raw=true)
 
+1. At first when we call ``` view { setNewColor(currentColor) } ``` new ViewAction instance is created, and passed to [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt). 
+2. [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt) is [IViewActionDispatcher](https://github.com/RobertApikyan/AbstractMvp/blob/master/abstractMvp/src/main/java/robertapikyan/com/abstractmvp/presentation/view/IViewActionDispatcher.kt)(from [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp)) implementation with LiveData from Android arc. components. It holds viewActions and dipatch them to [ViewActionObserver](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionObserver.kt).
+3.[ViewActionObserver](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionObserver.kt) receives viewActions and invoke them, with passing the view instance.
+4.After [ViewActionObserver](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionObserver.kt) invokes viewAction, ``` setNewColor(color:Int) ``` method will be called inside ColorActivity.
 
-##### view { } and viewImmediate { }
-If The view is detached and viewAction is created via view{} method ViewAction will be cached and executed when view instance will become attached again. This behavior can be changed by calling ```viewImmediate{ }``` method, which will execute action only if view is attached, otherwise action will be lost.
+##### view { ... } and viewImmediate { ... }
+When viewAction is created via ``` view { ... } ``` method, [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt) will cache the viewActions if view is detached, and send them when view will become attached again. If viewAction is created via ``` viewImmediate{ ... } ``` method, it will be send it only if view is attached, otherwise viewAction will be lost.
 
-##### It's conveniant to use view{} method with different type of expressions in kotlin language such as if or when 
+##### It's conveniant way to use view { ... } and view { ... } methods with different type of expressions in kotlin language such as if or when.
+
 ```kotlin
 // this method is defined inside presenter
 ...
-// With if statement
+// using view { ... } with IF
 fun onComplete(items:List<Item>) {
     if(items.isEmpty()) view {
         showEmptyResult()
@@ -101,8 +106,19 @@ fun onComplete(items:List<Item>) {
         showItems(items)
     }
 }
+// using view { ... } with WHEN
+fun onComplete(genre:FilmGenres) = when (genre) {
+            FilmGenres.HORROR -> view { 
+                showHorrors()
+            }
+            FilmGenres.COMEDY -> view { 
+                showComedy()
+            }
+            FilmGenres.ROMANCE -> view {
+                showRomance()
+            }
+        }
 ...
-fun onComplete
 ```
 
 

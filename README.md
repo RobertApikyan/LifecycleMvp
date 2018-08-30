@@ -81,10 +81,12 @@ Here new think is view{ } method, which receives lambda(```V.() -> Unit```) View
 ``
 It's impossible to come up with NullPointerException while trying to access view instance at the time when view is detached from presenter and there is no need to make nullability check every time before accessing view instance.
 ``
-##### view { } and viewImmediate{ }
+##### UNDER THE HOOD 
+
+##### view { } and viewImmediate { }
 If The view is detached and viewAction is created via view{} method ViewAction will be cached and executed when view instance will become attached again. This behavior can be changed by calling ```viewImmediate{ }``` method, which will execute action only if view is attached, otherwise action will be lost.
 
-##### It's conveniant to use view{} method with different type of expressions such as if or when 
+##### It's conveniant to use view{} method with different type of expressions in kotlin language such as if or when 
 ```kotlin
 // this method is defined inside presenter
 ...

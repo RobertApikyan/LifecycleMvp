@@ -93,10 +93,10 @@ Lets understand what is heppening when we call ```view { ... }``` or ``` viewImm
 
 4. After [ViewActionObserver](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionObserver.kt) invokes viewAction, ``` setNewColor(color:Int) ``` method will be called inside ColorActivity.
 
-##### view { ... } and viewImmediate { ... }
-When viewAction is created via ``` view { ... } ``` method, [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt) will cache the viewActions if view is detached, and send them when view will become attached again. If viewAction is created via ``` viewImmediate{ ... } ``` method, it will be send it only if view is attached, otherwise viewAction will be lost.
+#### view { ... } and viewImmediate { ... }
+When viewAction is created via ``` view { ... } ``` method, [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt) will cache the viewActions if view is detached, and send them when view will become attached again. If viewAction is created via ``` viewImmediate{ ... } ``` method, it will be send it only if view is attached, otherwise viewAction will be lost. This method can be used only after presenter's onCreate() lifeycle method call. This method is calling by [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework. Later more detaild about LifecyclePresenter lifecycle.
 
-##### It's conveniant way to use view { ... } and view { ... } methods with different type of expressions in kotlin language such as if or when.
+#### It's conveniant way to use view { ... } and viewImmediate { ... } methods with different type of expressions in kotlin language such as if or when.
 
 ```kotlin
 // this method is defined inside presenter
@@ -123,6 +123,8 @@ fun onComplete(genre:FilmGenres) = when (genre) {
         }
 ...
 ```
+#### LifecyclePresenter's Lifecycle 
+LifecyclePresenter's has five lifeycle methods. First is onCreate() which is the initial method for presenter. As we know this method is calling by [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework, only once when presenter is created, since LifecylePresenter is Activity lifecycle persistance.Method onCreate() is getting called when [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework bind's all components together (to 
 
 
 

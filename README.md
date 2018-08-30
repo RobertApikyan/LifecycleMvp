@@ -155,7 +155,7 @@ allprojects {
 #### Add dependency to app module level build.gradle
 ```groovy
 dependencies {
-    implementation 'com.github.RobertApikyan:LifecycleMvp:1.0.0'
+    implementation 'com.github.RobertApikyan:LifecycleMvp:1.0.1'
 }
 ```
 ### Maven
@@ -172,7 +172,7 @@ dependencies {
 	<dependency>
 	    <groupId>com.github.RobertApikyan</groupId>
 	    <artifactId>LifecycleMvp</artifactId>
-	    <version>1.0.0</version>
+	    <version>1.0.1</version>
 	</dependency>
 ```
 

@@ -10,8 +10,8 @@ It's convenient to write android applications with MVP architecture, because it'
 LifecycleMvp is implementation of [AbstractMvp](https://github.com/RobertApikyan/AbstractMvp) with [Android Arcitecture Components](https://developer.android.com/topic/libraries/architecture/).
 [AbstractMvp](https://github.com/RobertApikyan/AbstractMvp) framework solves a number of issues related with classic MVP implementation. Read more about AbstractMvp [here](https://github.com/RobertApikyan/AbstractMvp). 
 
-#### Let's try it on a ColorApp ...
-Here we have ColorApp, which main point is to display different color when the user is tapping on the screen.
+#### Let's try it on a [ColorApp](https://github.com/RobertApikyan/ColorsApp)
+Here we have a ColorApp. It's main point is to display different colors when the user is tapping on the screen.
 It has only one activity, and for that activity we gonna create ColorView interface and ColorPresenter class.
 
 ###### Step 1. Creating ColorView and ColorPresenter.
@@ -40,7 +40,7 @@ class ColorActivity : AppCompatActivity(), ColorView {
 ```
 
 ###### Step 3. Receive presenter instance in ColorActivity
-Here we receiving presenter instance by calling ```LifecycleMvp.from(this, ::ColorPresenter)``` where "this" is ColorView implementation, ::ColorPresenter is Presenter's factory lambda.
+Here we receiving presenter instance by calling ```LifecycleMvp.from(this, ::ColorPresenter)``` where "this"- is ColorView implementation, ::ColorPresenter is Presenter's constructor's reference. Alternatively it can be writen like this ``` LifecycleMvp.from(this) { ColorPresenter() } ```
 ```kotlin
 ...
 override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +53,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 }
 ...
 ```
-The Important think here is that our presenter is lifecycle persistence. After configuration change, such as rotation we gonna receive the same presenter instance.
+###### The Important think here is that our presenter is lifecycle persistence. After configuration change, such as rotation we gonna receive the same presenter instance.
 
 ###### Step 4. Let's define our ColorPresenter
 ```kotlin
@@ -61,7 +61,7 @@ The Important think here is that our presenter is lifecycle persistence. After c
     // Here we hold current display color
     private var currentColor = -1
     
-    // this method called when user clicks on mColorBackground
+    // This method called when user clicks on mColorBackground
     fun onColorViewClick() {
         // set new color value
         currentColor = ColorGenerator.generateColor()
@@ -69,35 +69,36 @@ The Important think here is that our presenter is lifecycle persistence. After c
         onColorChanged()
     }
     
-    // this method opens the view scope and send viewAction to view
+    // This method opens the view scope and send viewAction to view
     private fun onColorChanged() = view {
         setNewColor(currentColor) // UI color will be changed
     }
 }
 ```
-###### Done. Full example of ColorApp is [here](https://github.com/RobertApikyan/ColorsApp) 
 Here new think is view{ } method, which receives lambda(```V.() -> Unit```) ViewAction as an argument This viewAction will be invoked by LifecycleMvp framework. 
 
 ###### Note. 
 ``
 It's impossible to come up with NullPointerException while trying to access view instance at the time when view is detached from presenter and there is no need to make nullability check every time before accessing view instance.
 ``
+###### Done. Full example of ColorApp is [here](https://github.com/RobertApikyan/ColorsApp) 
+
 #### UNDER THE HOOD
 Lets understand what is happening when we call ```view { ... }``` or ``` viewImmediate { ... } ``` methods.
 ![N|Solid](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/intro/lifecycleMvpSchem.png?raw=true)
 
-1. At first when we call ``` view { setNewColor(currentColor) } ``` new ViewAction instance is created, and passed to [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt). 
+1. First when we call ``` view { setNewColor(currentColor) } ``` new ViewAction instance is created, and passed to [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt). 
 
-2. [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt) is [IViewActionDispatcher](https://github.com/RobertApikyan/AbstractMvp/blob/master/abstractMvp/src/main/java/robertapikyan/com/abstractmvp/presentation/view/IViewActionDispatcher.kt)(from [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp)) implementation with LiveData from Android arc. components. It holds viewActions and dispatch them to [ViewActionObserver](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionObserver.kt).
+2. [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt) is [IViewActionDispatcher](https://github.com/RobertApikyan/AbstractMvp/blob/master/abstractMvp/src/main/java/robertapikyan/com/abstractmvp/presentation/view/IViewActionDispatcher.kt)(from [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp)) implementation with LiveData from Android arcitecture components. It holds viewActions and dispatch them to [ViewActionObserver](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionObserver.kt).
 
 3. [ViewActionObserver](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionObserver.kt) receives viewActions and invoke them, with passing the view instance.
 
 4. After [ViewActionObserver](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionObserver.kt) invokes viewAction, ``` setNewColor(color:Int) ``` method will be called inside ColorActivity.
 
 #### view { ... } and viewImmediate { ... }
-When viewAction is created via ``` view { ... } ``` method, [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt) will cache the viewActions if view is detached, and send them when view will become attached again. If viewAction is created via ``` viewImmediate{ ... } ``` method, it will be send it only if view is attached, otherwise viewAction will be lost. This method can be used only after presenter's onCreate() lifecycle method call. This method is calling by [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework (Later more detail about LifecyclePresenter lifecycle). This methods can be called from worker threads, but the execution of viewAction will be automatically performed on the main thread.
+When viewAction is created via ``` view { ... } ``` method, [ViewActionDispatcherLiveData](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/ViewActionDispatcherLiveData.kt) will cache the viewActions if view is detached, and send them when view will become attached again. If viewAction is created via ``` viewImmediate{ ... } ``` method, it will be send it only if view is attached, otherwise viewAction will be lost. This method can be used only after presenter's onCreate() lifecycle method call. This method is calling by [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework (Later more detail about LifecyclePresenter lifecycle). This methods can be called from worker thread, but the execution of viewAction will be automatically switched to the main thread.
 
-#### It's convenient way to use view { ... } and viewImmediate { ... } methods with different type of expressions in kotlin language such as if or when.
+#### It's comfortable to use view { ... } and viewImmediate { ... } methods with different type of expressions in kotlin language such as if or when.
 
 ```kotlin
 // this method is defined inside presenter
@@ -127,16 +128,16 @@ fun onComplete(genre:FilmGenres) = when (genre) {
 #### LifecyclePresenter's Lifecycle 
 LifecyclePresenter's has five lifecycle methods.
 
-1. First one is ``` onCreate() ```, which is the initial stating point for presenter. As we know this method is calling by [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework, when presenter instance is created, since LifecyclePresenter is Activity lifecycle persistence, it will be called only once. It is getting called when [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework finish binding all components together. (more about AbstractMvp components [here](https://github.com/RobertApikyan/AbstractMvp)). Only onCreate() lifecycle method is related with presenter's lifecycle, upcoming methods are bounded with viewController lifecycle.
+1. First one is ``` onCreate() ```, which is the initial stating point for presenter. As we know this method is called by [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework, when presenter instance is created, since LifecyclePresenter is Activity lifecycle persistence, it will be called only once.  ``` onCreate() ``` is called when [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework finish binding all components together. (more about AbstractMvp components [here](https://github.com/RobertApikyan/AbstractMvp)). Only onCreate() method is related with presenter's lifecycle, upcoming methods are bounded with viewController lifecycle.
 
-2. ``` onViewAttach() ``` This method is getting called with ViewController's onCreate()
-3. ``` onViewStart() ``` This method is getting called with ViewController's onStart()
-4. ``` onViewStop() ``` This method is getting called with ViewController's onStop()
-5. ``` onViewDetach() ``` This method is getting called with ViewController's onDestroy()
+2. ``` onViewAttach() ``` This method is called with ViewController's onCreate()
+3. ``` onViewStart() ``` This method is called with ViewController's onStart()
+4. ``` onViewStop() ``` This method is called with ViewController's onStop()
+5. ``` onViewDetach() ``` This method is called with ViewController's onDestroy()
 
 #### LifecycleMvpFactory Class
 [AbstactMvp](https://github.com/RobertApikyan/AbstractMvp) framework uses [Mvp.Factory<V,P>](https://github.com/RobertApikyan/AbstractMvp/blob/master/abstractMvp/src/main/java/robertapikyan/com/abstractmvp/presentation/Mvp.kt) factory, in order to get all components instances. [LifecycleMvpFactory](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/LifecycleMvpFactory.kt) implement [Mvp.Factory<V,P>](https://github.com/RobertApikyan/AbstractMvp/blob/master/abstractMvp/src/main/java/robertapikyan/com/abstractmvp/presentation/Mvp.kt)
-interface and provides all necessary lifecycle components. If you need to change some component implementation you can inherit from [LifecycleMvpFactory](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/LifecycleMvpFactory.kt) class and override component provider method that you need to change.
+interface and provides all necessary lifecycle components. If you need to change some component implementation you can inherit from [LifecycleMvpFactory](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/lifecyclemvp/src/main/java/robertapikyan/com/lifecyclemvp/lifecycle/LifecycleMvpFactory.kt) class and override component provider method that you want to change.
 
 ### Summary
 LifecycleMvp library is AbstractMvp implementation with LiveData, ViewModels and Lifecycle from Android Architecture Components.

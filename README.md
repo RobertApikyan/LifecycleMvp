@@ -101,7 +101,7 @@ When viewAction is created via ``` view { ... } ``` method, [ViewActionDispatche
 #### It's comfortable to use view { ... } and viewImmediate { ... } methods with different type of expressions in kotlin language such as if or when.
 
 ```kotlin
-// this method is defined inside presenter
+// this methods are defined inside presenter
 ...
 // using view { ... } with IF
 fun onComplete(items:List<Item>) {

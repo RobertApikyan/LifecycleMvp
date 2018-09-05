@@ -1,7 +1,7 @@
 ![N|Solid](https://github.com/RobertApikyan/LifecycleMvp/blob/develop/intro/LifecycleCover.png?raw=true)
 
 ### MinSDK 14+
-[![](https://jitpack.io/v/RobertApikyan/LifecycleMvp.svg)](https://jitpack.io/#RobertApikyan/LifecycleMvp)
+[![](https://jitpack.io/v/RobertApikyan/LifecycleMvp.svg)](https://jitpack.io/#RobertApikyan/LifecycleMvp) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## LifecycleMvp
 

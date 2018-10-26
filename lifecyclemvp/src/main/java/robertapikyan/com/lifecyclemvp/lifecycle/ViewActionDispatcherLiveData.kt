@@ -44,7 +44,7 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
         val view = viewHolder.getView()
                 ?: throw IllegalStateException("View is null in ViewActionDispatcherLiveData::setViewActionObserver")
 
-        if (view !is LifecycleOwner) throw IllegalArgumentException(view::class.java.canonicalName
+        if (view !is LifecycleOwner) throw IllegalArgumentException(view::class.java.canonicalName ?: "View"
                 +
                 " might be implemented by LifecycleOwner activity or fragment")
 

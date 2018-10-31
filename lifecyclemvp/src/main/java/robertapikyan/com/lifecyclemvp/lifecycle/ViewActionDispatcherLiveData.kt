@@ -3,6 +3,7 @@ package robertapikyan.com.lifecyclemvp.lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
+import android.os.Handler
 import android.os.Looper
 import robertapikyan.com.abstractmvp.presentation.view.*
 import java.util.*
@@ -29,6 +30,8 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
     private lateinit var viewActionObserver: IViewActionObserver<V>
 
     private val pending = AtomicBoolean(false)
+    private val dispatching = AtomicBoolean(false)
+    private val uiHandler by lazy { Handler(Looper.getMainLooper()) }
 
     private val pendingActions: Queue<IViewAction<V>>
             by lazy { LinkedList<IViewAction<V>>() }
@@ -44,7 +47,8 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
         val view = viewHolder.getView()
                 ?: throw IllegalStateException("View is null in ViewActionDispatcherLiveData::setViewActionObserver")
 
-        if (view !is LifecycleOwner) throw IllegalArgumentException(view::class.java.canonicalName ?: "View"
+        if (view !is LifecycleOwner) throw IllegalArgumentException(view::class.java.canonicalName
+                ?: "View"
                 +
                 " might be implemented by LifecycleOwner activity or fragment")
 
@@ -55,10 +59,10 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
                     it != null) {
 
                 if (it !is DisposableViewAction<V>)
-                    viewActionObserver.onInvoke(it)
+                    dispatchToObserver(it)
 
                 if (it is DisposableViewAction<V> && !it.isVersionChanged(currentVersion))
-                    viewActionObserver.onInvoke(it)
+                    dispatchToObserver(it)
             }
         })
     }
@@ -91,6 +95,12 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
         super.postValue(value)
     }
 
+    private fun dispatchToObserver(it: IViewAction<V>) {
+        dispatching.set(true)
+        viewActionObserver.onInvoke(it)
+        dispatching.set(false)
+    }
+
     private fun performPendingActions() {
         if (pendingActions.isEmpty()) return
 
@@ -103,7 +113,11 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
     }
 
     private fun sendImmediate(viewAction: IViewAction<V>) {
-        if (!isMainThread()) {
+        if (dispatching.get()) {
+            uiHandler.post {
+                value = viewAction
+            }
+        } else if (!isMainThread()) {
             postValue(viewAction)
         } else {
             value = viewAction
@@ -114,10 +128,14 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
         if (isActive) {
             sendImmediate(viewAction)
         } else {
-            lock.lock()
-            pendingActions.add(viewAction)
-            lock.unlock()
+            addPendingAction(viewAction)
         }
+    }
+
+    private fun addPendingAction(viewAction: IViewAction<V>) {
+        lock.lock()
+        pendingActions.add(viewAction)
+        lock.unlock()
     }
 
     private fun isMainThread() = Looper.getMainLooper().thread == Thread.currentThread()

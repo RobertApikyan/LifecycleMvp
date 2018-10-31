@@ -97,7 +97,6 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
         dispatching.set(true)
         viewActionObserver.onInvoke(it)
         dispatching.set(false)
-        performPendingActions()
     }
 
     private fun performPendingActions() {
@@ -112,9 +111,7 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
     }
 
     private fun sendImmediate(viewAction: IViewAction<V>) {
-        if (dispatching.get()) {
-            addPendingAction(viewAction)
-        } else if (!isMainThread()) {
+        if (dispatching.get() || !isMainThread()) {
             postValue(viewAction)
         } else {
             value = viewAction

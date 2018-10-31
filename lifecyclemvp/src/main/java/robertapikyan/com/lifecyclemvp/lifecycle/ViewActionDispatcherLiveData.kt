@@ -3,6 +3,7 @@ package robertapikyan.com.lifecyclemvp.lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
+import android.os.Handler
 import android.os.Looper
 import robertapikyan.com.abstractmvp.presentation.view.*
 import java.util.*
@@ -30,6 +31,7 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
 
     private val pending = AtomicBoolean(false)
     private val dispatching = AtomicBoolean(false)
+    private val uiHandler by lazy { Handler(Looper.getMainLooper()) }
 
     private val pendingActions: Queue<IViewAction<V>>
             by lazy { LinkedList<IViewAction<V>>() }
@@ -111,7 +113,11 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
     }
 
     private fun sendImmediate(viewAction: IViewAction<V>) {
-        if (dispatching.get() || !isMainThread()) {
+        if (dispatching.get()) {
+            uiHandler.post {
+                value = viewAction
+            }
+        } else if (!isMainThread()) {
             postValue(viewAction)
         } else {
             value = viewAction

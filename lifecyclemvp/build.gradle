@@ -40,4 +40,3 @@ task sourcesJar(type: Jar) {
 artifacts {
     archives sourcesJar
 }
-

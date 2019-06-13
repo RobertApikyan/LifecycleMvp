@@ -91,8 +91,9 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
     }
 
     override fun postValue(value: IViewAction<V>?) {
-        pending.set(true)
-        super.postValue(value)
+        uiHandler.post{
+            setValue(value)
+        }
     }
 
     private fun dispatchToObserver(it: IViewAction<V>) {

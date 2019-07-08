@@ -3,6 +3,42 @@
 ### MinSDK 14+
 [![](https://jitpack.io/v/RobertApikyan/LifecycleMvp.svg)](https://jitpack.io/#RobertApikyan/LifecycleMvp) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+## Download
+### Gradle 
+#### Add to project level build.gradle
+```groovy
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+#### Add dependency to app module level build.gradle
+```groovy
+dependencies {
+    implementation 'com.github.RobertApikyan:LifecycleMvp:1.0.7'
+}
+```
+### Maven
+```xml
+<repositories>
+	<repository>
+	<id>jitpack.io</id>
+	<url>https://jitpack.io</url>
+	</repository>
+</repositories>
+```
+#### Add dependency
+```xml
+<dependency>
+	<groupId>com.github.RobertApikyan</groupId>
+	<artifactId>LifecycleMvp</artifactId>
+	<version>1.0.7</version>
+</dependency>
+```
+
+
 ## LifecycleMvp
 
 It's convenient to write android applications with MVP architecture, because it's simple and lightweight.
@@ -141,44 +177,6 @@ interface and provides all necessary lifecycle components. If you need to change
 
 ### Summary
 LifecycleMvp library is AbstractMvp implementation with LiveData, ViewModels and Lifecycle from Android Architecture Components.
-
-## Download
-### Gradle 
-#### Add to project level build.gradle
-```groovy
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-}
-```
-#### Add dependency to app module level build.gradle
-```groovy
-dependencies {
-    implementation 'com.github.RobertApikyan:LifecycleMvp:1.0.5'
-}
-```
-### Maven
-```xml
-<repositories>
-	<repository>
-	<id>jitpack.io</id>
-	<url>https://jitpack.io</url>
-	</repository>
-</repositories>
-```
-#### Add dependency
-```xml
-<dependency>
-	<groupId>com.github.RobertApikyan</groupId>
-	<artifactId>LifecycleMvp</artifactId>
-	<version>1.0.5</version>
-</dependency>
-```
-
- 
-### Done.
 
 [![View Robert Apikyan profile on LinkedIn](https://www.linkedin.com/img/webpromo/btn_viewmy_160x33.png)](https://www.linkedin.com/in/robert-apikyan-24b915130/)
 

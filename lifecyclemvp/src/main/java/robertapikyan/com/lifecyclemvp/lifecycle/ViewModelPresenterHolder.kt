@@ -21,6 +21,13 @@ class ViewModelPresenterHolder<V : LifecycleView, P : LifecyclePresenter<V>> : V
 
     override fun hasPresenter() = ::presenter.isInitialized
 
+    override fun onCleared() {
+        if (this::presenter.isInitialized){
+            presenter.onDestroy()
+        }
+        super.onCleared()
+    }
+
     private fun assertPresenterNotNull() {
         // actually this will never happen
         if (!hasPresenter())

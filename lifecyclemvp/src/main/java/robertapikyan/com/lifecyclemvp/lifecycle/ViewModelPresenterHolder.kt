@@ -1,6 +1,6 @@
 package robertapikyan.com.lifecyclemvp.lifecycle
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterHolder
 
 /**

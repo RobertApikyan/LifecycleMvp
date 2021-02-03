@@ -1,9 +1,7 @@
 package robertapikyan.com.lifecyclemvp.lifecycle
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import robertapikyan.com.abstractmvp.presentation.Mvp
 import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterHolder
 import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterLifecycleHandler
@@ -54,9 +52,9 @@ open class LifecycleMvpFactory<V : LifecycleView, P : LifecyclePresenter<V>>(
      */
     @Suppress("UNCHECKED_CAST")
     override fun getPresenterHolder(): IPresenterHolder<V, P> = when (view) {
-        is Fragment -> ViewModelProviders.of(view as Fragment)
+        is androidx.fragment.app.Fragment -> ViewModelProvider(view as androidx.fragment.app.Fragment)
                 .get(ViewModelPresenterHolder::class.java) as ViewModelPresenterHolder<V, P>
-        is FragmentActivity -> ViewModelProviders.of(view as FragmentActivity)
+        is androidx.fragment.app.FragmentActivity -> ViewModelProvider(view as androidx.fragment.app.FragmentActivity)
                 .get(ViewModelPresenterHolder::class.java) as ViewModelPresenterHolder<V, P>
         else -> throw IllegalArgumentException(view::class.java.name +
                 " must be implemented by Fragment or FragmentActivity")

@@ -1,8 +1,8 @@
 package robertapikyan.com.lifecyclemvp.lifecycle
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterLifecycle
 import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterLifecycleHandler
 

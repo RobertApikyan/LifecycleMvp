@@ -1,10 +1,10 @@
 package robertapikyan.com.lifecyclemvp.lifecycle
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import robertapikyan.com.abstractmvp.presentation.view.*
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
@@ -91,7 +91,7 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
     }
 
     override fun postValue(value: IViewAction<V>?) {
-        uiHandler.post{
+        uiHandler.post {
             setValue(value)
         }
     }
@@ -108,7 +108,7 @@ class ViewActionDispatcherLiveData<V : IView> : LiveData<IViewAction<V>>(),
         lock.lock()
 
         while (!pendingActions.isEmpty())
-            sendSticky(pendingActions.poll())
+            pendingActions.poll()?.run(::sendSticky)
 
         lock.unlock()
     }

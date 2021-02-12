@@ -14,6 +14,7 @@ import robertapikyan.com.abstractmvp.presentation.presenter.Presenter
  */
 open class LifecycleMvpFactory<V : LifecycleView, P : LifecyclePresenter<V>>(
         private val view: V,
+        private val presenterKey:String,
         private val presenterFactory: Presenter.Factory<V, P>
 ) : Mvp.Factory<V, P> {
 
@@ -44,6 +45,10 @@ open class LifecycleMvpFactory<V : LifecycleView, P : LifecyclePresenter<V>>(
      */
     override fun getPresenter(): P {
         return presenterFactory.createPresenter()
+    }
+
+    override fun getPresenterKey(): Any {
+        return presenterKey
     }
 
     /**

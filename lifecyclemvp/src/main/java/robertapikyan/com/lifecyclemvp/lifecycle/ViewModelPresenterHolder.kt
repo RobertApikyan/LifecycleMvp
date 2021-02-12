@@ -8,30 +8,24 @@ import robertapikyan.com.abstractmvp.presentation.presenter.IPresenterHolder
  */
 class ViewModelPresenterHolder<V : LifecycleView, P : LifecyclePresenter<V>> : ViewModel(), IPresenterHolder<V, P> {
 
-    private lateinit var presenter: P
+    private val presenters = LinkedHashMap<Any,P>()
 
-    override fun put(presenter: P) {
-        this.presenter = presenter
+    override fun put(presenterKey: Any, presenter: P) {
+        this.presenters[presenterKey] = presenter
     }
 
-    override fun get(): P {
-        assertPresenterNotNull()
-        return presenter
+    override fun get(presenterKey: Any): P {
+        return presenters[presenterKey]
+                ?: throw IllegalStateException("ViewModelPresenterHolder.get($presenterKey) method is called when, " +
+                        "ViewModelPresenterHolder.hasPresenter($presenterKey) = false")
     }
 
-    override fun hasPresenter() = ::presenter.isInitialized
+    override fun hasPresenter(presenterKey: Any) = presenters.containsKey(presenterKey)
 
     override fun onCleared() {
-        if (this::presenter.isInitialized){
+        for (presenter in presenters.values) {
             presenter.onDestroy()
         }
         super.onCleared()
-    }
-
-    private fun assertPresenterNotNull() {
-        // actually this will never happen
-        if (!hasPresenter())
-            throw IllegalStateException("ViewModelPresenterHolder.get() method is called when, " +
-                    "ViewModelPresenterHolder.hasPresenter() = false")
     }
 }
